@@ -25,11 +25,34 @@ sudo apt upgrade -y
 
 ## 2. Install Dependencies
 
+### Install basic dependencies:
 ```
 sudo apt install -y cmake g++ qtbase5-dev qtdeclarative5-dev \
   qt5-qmake qtbase5-private-dev libqt5svg5-dev \
-  libssl-dev libboost-all-dev libusb-1.0-0-dev \
+  libssl-dev libusb-1.0-0-dev \
   libcurl4-openssl-dev pulseaudio
+```
+
+### Install Boost 1.66.0 (required for OpenAuto compatibility):
+
+**Option A: Install from package manager (if available):**
+```
+sudo apt install -y libboost-all-dev
+```
+
+**Option B: Build Boost 1.66.0 from source (recommended):**
+```
+# Download Boost 1.66.0
+wget https://boostorg.jfrog.io/artifactory/main/release/1.66.0/source/boost_1_66_0.tar.gz
+tar -xzf boost_1_66_0.tar.gz
+cd boost_1_66_0
+
+# Configure and build Boost
+./bootstrap.sh --prefix=/usr/local
+sudo ./b2 --with=all -j$(nproc) install
+
+# Update library cache
+sudo ldconfig
 ```
 
 ---
@@ -111,6 +134,7 @@ You can configure Raspberry Pi OS to boot without the desktop and launch OpenAut
 
 ## Notes
 
+- **Important**: OpenAuto requires Boost 1.66.0 for proper compilation and functionality.
 - For more features, consider [OpenAuto Pro](https://bluewavestudio.io/index.php/bluewave-shop/openauto-pro-detail).
 - For troubleshooting and advanced configuration, see the [OpenAuto GitHub](https://github.com/f1xpl/openauto).
 
